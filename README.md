@@ -2,7 +2,7 @@
 
 ## Contents
 
-- [Demo](https://blueimp.github.io/JavaScript-MD5/)
+- [Demo](https://kvba5.github.io/Yoyo-MD5/)
 - [Description](#description)
 - [Usage](#usage)
   - [Client-side](#client-side)
@@ -14,35 +14,42 @@
 
 ## Description
 
-JavaScript [MD5](https://en.wikipedia.org/wiki/MD5) implementation.  
+Yoyo [MD5](https://en.wikipedia.org/wiki/MD5) implementation.  
 Compatible with server-side environments like [Node.js](https://nodejs.org/),
 module loaders like [RequireJS](https://requirejs.org/) or
-[webpack](https://webpack.js.org/) and all web browsers.
+[webpack](https://webpack.js.org/) and all web browsers.  
+
+This fork is modified version of MD5 used by Yoyo for hashing GM runners.
 
 ## Usage
 
 ### Client-side
 
-Install the **blueimp-md5** package with [NPM](https://www.npmjs.org/):
+Install the package with [NPM](https://www.npmjs.org/):
 
 ```sh
-npm install blueimp-md5
+# npm
+npm install https://github.com/kvba5/Yoyo-MD5
+# pnpm
+pnpm install https://github.com/kvba5/Yoyo-MD5
+# bun
+bun add https://github.com/kvba5/Yoyo-MD5
 ```
 
 Include the (minified) JavaScript [MD5](https://en.wikipedia.org/wiki/MD5)
-script in your HTML markup:
+script in your JS code:
 
-```html
-<script src="js/md5.min.js"></script>
+```js
+import { yoyomd5 } from "js/md5.min.js"
 ```
 
 In your application code, calculate the
 ([hex](https://en.wikipedia.org/wiki/Hexadecimal)-encoded)
-[MD5](https://en.wikipedia.org/wiki/MD5) hash of a string by calling the **md5**
+[MD5](https://en.wikipedia.org/wiki/MD5) hash of a string by calling the **yoyomd5**
 method with the string as argument:
 
 ```js
-var hash = md5('value') // "2063c1608d6e0baf80249c42e2be5804"
+const hash = yoyomd5('string') // "<yoyo-md5 byte string>"
 ```
 
 ### Server-side
@@ -50,35 +57,21 @@ var hash = md5('value') // "2063c1608d6e0baf80249c42e2be5804"
 The following is an example how to use the JavaScript MD5 module on the
 server-side with [Node.js](https://nodejs.org/).
 
-Install the **blueimp-md5** package with [NPM](https://www.npmjs.org/):
+Install the package with [NPM](https://www.npmjs.org/):
 
 ```sh
-npm install blueimp-md5
+# npm
+npm install https://github.com/kvba5/Yoyo-MD5
+# pnpm
+pnpm install https://github.com/kvba5/Yoyo-MD5
+# bun
+bun add https://github.com/kvba5/Yoyo-MD5
 ```
 
-Add a file **server.js** with the following content:
+Import module using the following code:
 
 ```js
-require('http')
-  .createServer(function (req, res) {
-    // The md5 module exports the md5() function:
-    var md5 = require('./md5'),
-      // Use the following version if you installed the package with npm:
-      // var md5 = require("blueimp-md5"),
-      url = require('url'),
-      query = url.parse(req.url).query
-    res.writeHead(200, { 'Content-Type': 'text/plain' })
-    // Calculate and print the MD5 hash of the url query:
-    res.end(md5(query))
-  })
-  .listen(8080, 'localhost')
-console.log('Server running at http://localhost:8080/')
-```
-
-Run the application with the following command:
-
-```sh
-node server.js
+import { yoyomd5 } from "yoyo-md5"
 ```
 
 ## Requirements
@@ -87,48 +80,26 @@ The JavaScript MD5 script has zero dependencies.
 
 ## API
 
-Calculate the ([hex](https://en.wikipedia.org/wiki/Hexadecimal)-encoded)
-[MD5](https://en.wikipedia.org/wiki/MD5) hash of a given string value:
+This fork has been stripped from any other API that Javascript-MD5 used. Instead there's only one exposed function `yoyomd5` for generating byte string of the value you provide.
 
 ```js
-var hash = md5('value') // "2063c1608d6e0baf80249c42e2be5804"
+const hash = yoyomd5('string') // "<yoyo-md5 byte string>"
 ```
 
-Calculate the ([hex](https://en.wikipedia.org/wiki/Hexadecimal)-encoded)
-[HMAC](https://en.wikipedia.org/wiki/HMAC)-MD5 hash of a given string value and
-key:
-
+You can of course then base64 it by using:
 ```js
-var hash = md5('value', 'key') // "01433efd5f16327ea4b31144572c67f6"
+// node.js
+const base64hash = hash.toString("base64")
+// browser
+const base64hash = btoa(hash)
 ```
 
-Calculate the raw [MD5](https://en.wikipedia.org/wiki/MD5) hash of a given
-string value:
-
-```js
-var hash = md5('value', null, true)
-```
-
-Calculate the raw [HMAC](https://en.wikipedia.org/wiki/HMAC)-MD5 hash of a given
-string value and key:
-
-```js
-var hash = md5('value', 'key', true)
-```
 
 ## Tests
 
-The JavaScript MD5 project comes with
-[Unit Tests](https://en.wikipedia.org/wiki/Unit_testing).  
-There are two different ways to run the tests:
-
-- Open test/index.html in your browser or
-- run `npm test` in the Terminal in the root path of the repository package.
-
-The first one tests the browser integration, the second one the
-[Node.js](https://nodejs.org/) integration.
+All original tests of Javascript-MD5 have been replaced with ones that are needed for proper generation of Yoyo MD5 hashing. For original tests please visit [original source code](https://github.com/blueimp/JavaScript-MD5).
 
 ## License
 
-The JavaScript MD5 script is released under the
-[MIT license](https://opensource.org/licenses/MIT).
+The Yoyo MD5 script is released under the
+[MIT license](https://opensource.org/licenses/MIT) just like it's original project.
